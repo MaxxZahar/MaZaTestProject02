@@ -1,3 +1,4 @@
 from garpixcms.urls import *  # noqa
+from django.urls import path, include
 
-urlpatterns = [] + urlpatterns  # noqa
+urlpatterns = [path('api/v1/users/', include('user.urls'))] + urlpatterns  # noqa
