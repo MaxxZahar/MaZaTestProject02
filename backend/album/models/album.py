@@ -1,6 +1,9 @@
 from django.db import models
 from django.utils import timezone
-from user.models import User
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 class Album(models.Model):
