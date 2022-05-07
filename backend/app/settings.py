@@ -4,6 +4,7 @@ INSTALLED_APPS += [  # noqa
     'home',
     'album',
     'authentication',
+    'django_filters',
 ]
 
 REST_FRAMEWORK = {'DEFAULT_AUTHENTICATION_CLASSES': (
