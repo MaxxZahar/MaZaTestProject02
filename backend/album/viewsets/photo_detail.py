@@ -4,7 +4,7 @@ from ..models import Photo
 
 
 class PhotoDetailViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin,
-                         mixins.UpdateModelMixin):
+                         mixins.UpdateModelMixin, mixins.DestroyModelMixin):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
     permission_classes = [permissions.IsAuthenticated]

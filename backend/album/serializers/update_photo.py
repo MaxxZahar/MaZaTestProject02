@@ -4,7 +4,7 @@ from .tag import TagSerializer
 
 
 class UpdatePhotoSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True)
+    tags = TagSerializer(many=True, required=False)
 
     class Meta:
         model = Photo
