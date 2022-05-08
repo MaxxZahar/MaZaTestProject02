@@ -9,6 +9,10 @@ class PhotoDetailViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin,
     serializer_class = PhotoSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_queryset(self):
+        queryset = self.queryset.filter(album__user=self.request.user)
+        return queryset
+
     def get_serializer_class(self):
         if self.request.method == 'PUT':
             return UpdatePhotoSerializer

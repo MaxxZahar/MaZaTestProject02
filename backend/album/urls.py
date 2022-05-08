@@ -3,7 +3,7 @@ from .viewsets import AlbumViewSet, UpdateAlbumViewSet, PhotoViewSet, PhotoDetai
 
 album_router = routers.DefaultRouter()
 album_router.register('albums', AlbumViewSet)
-album_router.register('albums/<int:pk>', UpdateAlbumViewSet)
+album_router.register('albums', UpdateAlbumViewSet)
 album_router.register('photos', PhotoViewSet)
 album_router.register('photos', PhotoDetailViewSet)
 
