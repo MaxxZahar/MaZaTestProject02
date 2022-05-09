@@ -119,5 +119,41 @@ class AlbumTestCase(TestCase):
         Photo.objects.create(title='photo5', img=image, album=album).tags.set([tag3])
         self.assertEqual(len(Photo.objects.all()), 5)
 
+    def test_get_photo_api_12(self):
+        c = Client()
+        c.login(username='User1', password='password1')
+        response = c.get('/api/v1/albums/photos/')
+        content = json.loads(response.content.decode('utf-8'))
+        ids = [photo['id'] for photo in content]
+        photo_id = ids[0]
+        response = c.get(f'/api/v1/albums/photos/{photo_id}/')
+        self.assertEqual(response.status_code, 200)
 
+    def test_put_photo_api_13(self):
+        c = Client()
+        c.login(username='User1', password='password1')
+        response = c.get('/api/v1/albums/photos/')
+        content = json.loads(response.content.decode('utf-8'))
+        ids = [photo['id'] for photo in content]
+        photo_id = ids[0]
+        c.put(f'/api/v1/albums/photos/{photo_id}/', {'title': 'updated_photo', 'tags': [{
+            'name': 'tag1'
+            },
+            {
+                'name': 'tag3'
+            }]}, content_type='application/json')
+        response = c.get(f'/api/v1/albums/photos/{photo_id}/')
+        content = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(content['title'], 'updated_photo')
+        self.assertEqual(content['tags'][0]['name'], 'tag1')
 
+    def test_delete_photo_api_14(self):
+        c = Client()
+        c.login(username='User1', password='password1')
+        response = c.get('/api/v1/albums/photos/')
+        content = json.loads(response.content.decode('utf-8'))
+        ids = [photo['id'] for photo in content]
+        photo_id = ids[0]
+        c.delete(f'/api/v1/albums/photos/{photo_id}/')
+        response = c.get(f'/api/v1/albums/photos/{photo_id}/')
+        self.assertEqual(response.status_code, 404)
