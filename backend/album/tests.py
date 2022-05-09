@@ -190,3 +190,10 @@ class AlbumTestCase(TestCase):
         numbers = [album['number_of_photos'] for album in content]
         self.assertEqual(numbers, [2, 1, 0])
 
+    def test_photos_api_ordering_added_at_increase_19(self):
+        c = Client()
+        c.login(username='User1', password='password1')
+        response = c.get('/api/v1/albums/photos/?ordering=added_at')
+        content = json.loads(response.content.decode('utf-8'))
+        titles = [photo['title'] for photo in content]
+        self.assertEqual(titles, ["photo1", "photo2", "photo3"])
