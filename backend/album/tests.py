@@ -21,10 +21,10 @@ class AlbumTestCase(TestCase):
         a3 = Album.objects.create(name='Album2.1', user=u2)
         t1 = Tag.objects.create(name='tag1')
         t2 = Tag.objects.create(name='tag2')
-        Photo.objects.create(title='photo1', img='img1.jpg', album=a1).tags.set([])
-        Photo.objects.create(title='photo2', img='img2.png', album=a1).tags.set([t1, t2])
-        Photo.objects.create(title='photo3', img='img3.jpg', album=a2).tags.set([])
-        Photo.objects.create(title='photo4', img='img4.jpg', album=a3).tags.set([t1])
+        Photo.objects.create(title='photo1', img='img1.jpg', img_height=1800, img_width=1200, album=a1).tags.set([])
+        Photo.objects.create(title='photo2', img='img2.png', img_height=1800, img_width=1200, album=a1).tags.set([t1, t2])
+        Photo.objects.create(title='photo3', img='img3.jpg', img_height=1800, img_width=1200, album=a2).tags.set([])
+        Photo.objects.create(title='photo4', img='img4.jpg', img_height=1800, img_width=1200, album=a3).tags.set([t1])
 
     def test_create_album_1(self):
         albums_number = len(Album.objects.all())
@@ -197,3 +197,27 @@ class AlbumTestCase(TestCase):
         content = json.loads(response.content.decode('utf-8'))
         titles = [photo['title'] for photo in content]
         self.assertEqual(titles, ["photo1", "photo2", "photo3"])
+
+    def test_photos_api_ordering_added_at_decrease_20(self):
+        c = Client()
+        c.login(username='User1', password='password1')
+        response = c.get('/api/v1/albums/photos/?ordering=-added_at')
+        content = json.loads(response.content.decode('utf-8'))
+        titles = [photo['title'] for photo in content]
+        self.assertEqual(titles, ["photo3", "photo2", "photo1"])
+
+    def test_photos_api_ordering_album_increase_21(self):
+        c = Client()
+        c.login(username='User1', password='password1')
+        response = c.get('/api/v1/albums/photos/?ordering=album__id')
+        content = json.loads(response.content.decode('utf-8'))
+        titles = [photo['title'] for photo in content]
+        self.assertEqual(titles, ["photo1", "photo2", "photo3"])
+
+    def test_photos_api_ordering_album_decrease_22(self):
+        c = Client()
+        c.login(username='User1', password='password1')
+        response = c.get('/api/v1/albums/photos/?ordering=-album__id')
+        content = json.loads(response.content.decode('utf-8'))
+        titles = [photo['title'] for photo in content]
+        self.assertEqual(titles, ["photo3", "photo1", "photo2"])

@@ -9,7 +9,7 @@ class PhotoViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin,
     serializer_class = PhotoSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [filters.OrderingFilter]
-    ordering_fields = ['added_at', 'album']
+    ordering_fields = ['added_at', 'album__id']
     ordering = ['-added_at']
 
     def get_queryset(self):
