@@ -28,7 +28,7 @@ class AlbumTestCase(TestCase):
 
     def test_create_album_1(self):
         albums_number = len(Album.objects.all())
-        u1 = User.objects.get(id=1)
+        u1 = User.objects.get(username='User1')
         Album.objects.create(name='Album', user=u1)
         self.assertEqual(len(Album.objects.all()), albums_number + 1)
 
@@ -157,3 +157,36 @@ class AlbumTestCase(TestCase):
         c.delete(f'/api/v1/albums/photos/{photo_id}/')
         response = c.get(f'/api/v1/albums/photos/{photo_id}/')
         self.assertEqual(response.status_code, 404)
+
+    def test_albums_api_ordering_created_at_increase_15(self):
+        c = Client()
+        c.login(username='User1', password='password1')
+        response = c.get('/api/v1/albums/albums/?ordering=created_at')
+        content = json.loads(response.content.decode('utf-8'))
+        names = [album['name'] for album in content]
+        self.assertEqual(names, ["Album1.1", "Album1.2", "Album1.3"])
+
+    def test_albums_api_ordering_created_at_decrease_16(self):
+        c = Client()
+        c.login(username='User1', password='password1')
+        response = c.get('/api/v1/albums/albums/?ordering=-created_at')
+        content = json.loads(response.content.decode('utf-8'))
+        names = [album['name'] for album in content]
+        self.assertEqual(names, ["Album1.3", "Album1.2", "Album1.1"])
+
+    def test_albums_api_ordering_number_of_photos_increase_17(self):
+        c = Client()
+        c.login(username='User1', password='password1')
+        response = c.get('/api/v1/albums/albums/?ordering=number_of_photos')
+        content = json.loads(response.content.decode('utf-8'))
+        numbers = [album['number_of_photos'] for album in content]
+        self.assertEqual(numbers, [0, 1, 2])
+
+    def test_albums_api_ordering_number_of_photos_decrease_18(self):
+        c = Client()
+        c.login(username='User1', password='password1')
+        response = c.get('/api/v1/albums/albums/?ordering=-number_of_photos')
+        content = json.loads(response.content.decode('utf-8'))
+        numbers = [album['number_of_photos'] for album in content]
+        self.assertEqual(numbers, [2, 1, 0])
+
