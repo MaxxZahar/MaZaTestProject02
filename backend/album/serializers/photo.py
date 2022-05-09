@@ -25,6 +25,20 @@ class PhotoSerializer(serializers.ModelSerializer):
         model = Photo
         fields = '__all__'
 
+    def get_or_create_tags(self, tags):
+        tag_ids = []
+        for tag in tags:
+            tag_instance, created = Tag.objects.get_or_create(name=tag.get('name'), defaults=tag)
+            tag_ids.append(tag_instance.id)
+            print(tag_ids, 'goc')
+        return tag_ids
+
+    def create(self, validated_data):
+        tags = validated_data.pop('tags', [])
+        print(tags, 'c')
+        photo = Photo.objects.create(**validated_data)
+        photo.tags.set(self.get_or_create_tags(tags))
+        return photo
 
 
 
