@@ -221,3 +221,20 @@ class AlbumTestCase(TestCase):
         content = json.loads(response.content.decode('utf-8'))
         titles = [photo['title'] for photo in content]
         self.assertEqual(titles, ["photo3", "photo1", "photo2"])
+
+    def test_photos_api_filter_album_23(self):
+        c = Client()
+        c.login(username='User1', password='password1')
+        response = c.get('/api/v1/albums/photos/?album__name=Album1.1&tags__name=')
+        content = json.loads(response.content.decode('utf-8'))
+        titles = [photo['title'] for photo in content]
+        self.assertEqual(titles, ["photo2", "photo1"])
+
+    def test_photos_api_filter_tag_24(self):
+        c = Client()
+        c.login(username='User1', password='password1')
+        response = c.get('/api/v1/albums/photos/?album__name=&tags__name=tag1')
+        content = json.loads(response.content.decode('utf-8'))
+        titles = [photo['title'] for photo in content]
+        self.assertEqual(titles, ["photo2"])
+
