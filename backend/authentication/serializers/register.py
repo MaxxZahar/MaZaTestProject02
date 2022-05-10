@@ -20,4 +20,3 @@ class RegisterSerializer(serializers.ModelSerializer):
             is_active=validated_data['is_active'],)
         user.save()
         return user
-

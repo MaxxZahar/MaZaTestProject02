@@ -18,4 +18,3 @@ class AlbumSerializer(serializers.ModelSerializer):
     def get_number_of_photos(self, obj):
         queryset = Photo.objects.filter(album=self.get_id(obj))
         return len(queryset)
-

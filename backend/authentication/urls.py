@@ -7,5 +7,3 @@ auth_router.register('', RegisterViewSet)
 
 urlpatterns = []
 urlpatterns += auth_router.urls
-
-

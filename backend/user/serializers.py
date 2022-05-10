@@ -12,4 +12,3 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
         fields += 'albums'
         fields += 'user'
-

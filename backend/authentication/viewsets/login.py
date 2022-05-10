@@ -17,4 +17,3 @@ class LoginViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
         authenticate(username=user, password=password)
         login(self.request, user)
         return Response(None, status=status.HTTP_202_ACCEPTED)
-

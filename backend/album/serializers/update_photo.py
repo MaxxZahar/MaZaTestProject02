@@ -29,5 +29,3 @@ class UpdatePhotoSerializer(serializers.ModelSerializer):
             pass
         instance.save()
         return instance
-
-

@@ -5,7 +5,6 @@ from django.contrib.auth.hashers import make_password
 import json
 from django.core.files.uploadedfile import SimpleUploadedFile
 import os
-from io import BytesIO
 
 # Create your tests here.
 
@@ -136,8 +135,9 @@ class AlbumTestCase(TestCase):
         content = json.loads(response.content.decode('utf-8'))
         ids = [photo['id'] for photo in content]
         photo_id = ids[0]
-        c.put(f'/api/v1/albums/photos/{photo_id}/', {'title': 'updated_photo', 'tags': [{
-            'name': 'tag1'
+        c.put(f'/api/v1/albums/photos/{photo_id}/', {'title': 'updated_photo', 'tags': [
+            {
+                'name': 'tag1'
             },
             {
                 'name': 'tag3'
@@ -237,4 +237,3 @@ class AlbumTestCase(TestCase):
         content = json.loads(response.content.decode('utf-8'))
         titles = [photo['title'] for photo in content]
         self.assertEqual(titles, ["photo2"])
-

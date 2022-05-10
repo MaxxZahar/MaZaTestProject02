@@ -65,9 +65,3 @@ class PhotoSerializer(serializers.ModelSerializer):
         photo = Photo.objects.create(**validated_data)
         photo.tags.set(self.get_or_create_tags(tags))
         return photo
-
-
-
-
-
-

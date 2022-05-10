@@ -1,10 +1,9 @@
 from garpixcms.urls import *  # noqa
 from django.urls import path, include
-from authentication.viewsets import LoginViewSet
-from authentication.viewsets import logout_view
+from django.contrib import admin
 
 
-urlpatterns = [urlpatterns[0]]
+urlpatterns = [path('admin/', admin.site.urls)]
 
 urlpatterns = [path('api/v1/users/', include('user.urls')),
                path('api/v1/albums/', include('album.urls')),
@@ -14,7 +13,3 @@ urlpatterns = [path('api/v1/users/', include('user.urls')),
 urlpatterns += [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
-
-
-
-

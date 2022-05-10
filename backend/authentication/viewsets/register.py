@@ -1,7 +1,6 @@
 from rest_framework import viewsets, mixins
 from user.models import User
 from ..serializers import RegisterSerializer
-from django.contrib.auth.hashers import make_password
 
 
 class RegisterViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
@@ -21,4 +20,3 @@ class RegisterViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
     def perform_create(self, serializer):
         print(self.get_serializer_context()['request'])
         serializer.save()
-
