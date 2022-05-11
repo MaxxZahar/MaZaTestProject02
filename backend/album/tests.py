@@ -146,6 +146,7 @@ class AlbumTestCase(TestCase):
         content = json.loads(response.content.decode('utf-8'))
         self.assertEqual(content['title'], 'updated_photo')
         self.assertEqual(content['tags'][0]['name'], 'tag1')
+        self.assertEqual(content['tags'][1]['name'], 'tag3')
 
     def test_delete_photo_api_14(self):
         c = Client()
