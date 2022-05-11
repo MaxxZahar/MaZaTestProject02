@@ -5,8 +5,7 @@ from django.contrib import admin
 
 urlpatterns = [path('admin/', admin.site.urls)]
 
-urlpatterns = [path('api/v1/users/', include('user.urls')),
-               path('api/v1/albums/', include('album.urls')),
+urlpatterns = [path('api/v1/albums/', include('album.urls')),
                path('api/v1/register/', include('authentication.urls')),
                ] + urlpatterns  # noqa
 
