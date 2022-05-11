@@ -4,7 +4,7 @@ from .photo import PhotoSerializer
 
 
 class AlbumSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
+    user = serializers.ReadOnlyField(source='user.id')
     album_photo = PhotoSerializer(read_only=True, many=True)
     number_of_photos = serializers.SerializerMethodField()
 
