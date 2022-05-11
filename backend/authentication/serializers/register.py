@@ -7,6 +7,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         style={'input_type': 'password'}
     )
+    is_active = serializers.HiddenField(default=True)
 
     class Meta:
         model = User
