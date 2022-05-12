@@ -238,3 +238,8 @@ class AlbumTestCase(TestCase):
         content = json.loads(response.content.decode('utf-8'))
         titles = [photo['title'] for photo in content]
         self.assertEqual(titles, ["photo2"])
+
+    def test_post_albums_api_unauthorised_user_25(self):
+        c = Client()
+        response = c.post('/api/v1/albums/albums/', {'name': 'Album1.4'})
+        self.assertEqual(response.status_code, 401)
