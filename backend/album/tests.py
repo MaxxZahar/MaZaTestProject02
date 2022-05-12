@@ -243,3 +243,16 @@ class AlbumTestCase(TestCase):
         c = Client()
         response = c.post('/api/v1/albums/albums/', {'name': 'Album1.4'})
         self.assertEqual(response.status_code, 401)
+
+    def test_delete_album_api_unauthorised_user_26(self):
+        c = Client()
+        c.login(username='User1', password='password1')
+        response = c.get('/api/v1/albums/albums/')
+        content = json.loads(response.content.decode('utf-8'))
+        ids = [album['id'] for album in content]
+        album_id = ids[0]
+        c.logout()
+        c.delete(f'/api/v1/albums/albums/{album_id}/')
+        c.login(username='User1', password='password1')
+        response = c.get(f'/api/v1/albums/albums/{album_id}/')
+        self.assertEqual(response.status_code, 200)
